@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "Tutee"
+version = "0.1.0"
+description = "PoC Student Copitol"
+authors = ["Kamil Hryniewicz <kamil@hryniew.cz>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+openai = "^0.24.0"
+streamlit = "^1.14.0"
+wikipedia = "^1.4.0"
+
+[tool.poetry.dev-dependencies]
+black = "^22.10.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -3,6 +3,13 @@ import wikipedia
 
 from gpt import summarize
 
+st.set_page_config(
+    page_title="Tutee - PoC student copilot",
+    page_icon="👨‍✈️",
+    layout="centered",
+    initial_sidebar_state="auto",
+    menu_items=None,
+)
 st.sidebar.title("Parameters")
 model = st.sidebar.selectbox("Model", ["text-davinci-002"], help="The ID of the model to use for this request.")
 temperature = st.sidebar.slider("Temperature ", 0.0, 0.9, 0.2, step=0.05, help="Higher values means the model will take more risks. Try 0.9 for more creative answer, and 0 for well-defined one.")

@@ -12,6 +12,12 @@ st.set_page_config(
 )
 
 
+@st.cache(persist=True)
+def create_explanation(topic):
+    page = wikipedia.page(topic)
+    return page, summarize(page.summary, model, temperature, max_tokens)
+
+
 with st.sidebar:
     st.title("Parameters")
     model = st.selectbox(
@@ -39,11 +45,9 @@ with st.sidebar:
 
 st.title(":shrug: Explain Like I'm 5")
 st.markdown("Proof of Concept for a copilot for students.")
-topic = st.text_input("Explain...", "product/market fit")
-with st.spinner("Just a second..."):
-    text = str.rstrip(wikipedia.summary(topic))
-    summary = summarize(text, model, temperature, max_tokens)
-    st.text_area(label="There you go", value=summary, height=250)
+topic = st.text_input("Explain...", "natural language processing")
+page, summary = create_explanation(topic)
+st.text_area(label="There you go", value=summary, height=250)
 
 
 with st.expander("Under the hood"):
@@ -52,4 +56,9 @@ with st.expander("Under the hood"):
         topic and get it's summary. The prompt for the GPT is: `Summarize this
         for a second-grade student: {wiki_summary}`."""
     )
-    st.text_area(f"wiki_summary for {topic}", text, height=250, disabled=True)
+    st.text_area(
+        label=f"wiki_summary from {page.title}",
+        value=page.summary,
+        height=250,
+        disabled=True,
+    )

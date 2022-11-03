@@ -1,10 +1,7 @@
 import streamlit as st
-import openai
 import wikipedia
-import os
 
-
-openai.api_key = os.getenv("OPENAI_API_KEY")
+from gpt import summarize
 
 
 st.sidebar.title("Parameters")
@@ -16,14 +13,7 @@ st.title(":shrug: Explain Like I'm 5")
 st.markdown("Proof of Concept for a copilot for students. Check the Wikipedia article about the given topic and generate a summary for a second-grade student using GPT-3. You can modify the parameters in the sidebar.")
 page = st.text_input("Explain...", "quantum computing")
 text = str.rstrip(wikipedia.summary(page))
-
-response = openai.Completion.create(
-    model=model,
-    prompt=f"Summarize this for a second-grade student:\n\n{text}\n",
-    temperature=temperature,
-    max_tokens=max_tokens,
-)
-st.text_area("There you go", str.lstrip(response.choices[0].text), height=250)
+st.text_area("There you go", summarize(text, model, temperature, max_tokens), height=250)
 
 with st.expander("Wiki text"):
     st.markdown("To create the summary we check the Wikipedia article related to the topic and get it's summary. The prompt for the GPT is: `Summarize this for a second-grade student: {wiki_summary}`")

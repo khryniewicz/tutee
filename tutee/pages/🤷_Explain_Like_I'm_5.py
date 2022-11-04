@@ -10,9 +10,8 @@ st.set_page_config(
 
 
 @st.cache(persist=True)
-def create_explanation(topic):
-    page = wikipedia.page(topic)
-    return page, summarize(page.summary, model, temperature, max_tokens)
+def get_resources(topic):
+    return wikipedia.page(topic)
 
 
 with st.sidebar:
@@ -43,15 +42,17 @@ with st.sidebar:
 st.title(":shrug: Explain Like I'm 5")
 st.markdown("Proof of Concept for a copilot for students.")
 topic = st.text_input("Explain...", "natural language processing")
-page, summary = create_explanation(topic)
-st.text_area(label="There you go", value=summary, height=250)
+page = get_resources(topic)
+answer = summarize(page.summary, model, temperature, max_tokens)
+st.text_area(label="There you go", value=answer, height=250)
 
 
 with st.expander("Under the hood"):
     st.markdown(
         """To create the summary we check the Wikipedia article related to the
         topic and get it's summary. The prompt for the GPT is: `Summarize this
-        for a second-grade student: {wiki_summary}`."""
+        for a second-grade student: {wiki_summary}`. Based on the OpenAI
+        [example](https://beta.openai.com/examples/default-summarize)."""
     )
     st.text_area(
         label=f"wiki_summary from {page.title}",

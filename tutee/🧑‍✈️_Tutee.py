@@ -1,3 +1,4 @@
+from pathlib import Path
 import streamlit as st
 
 
@@ -6,4 +7,4 @@ st.set_page_config(
     page_icon="👨‍✈️",
 )
 
-st.title("Tutee - PoC student copilot")
+st.markdown(Path("README.md").read_text())

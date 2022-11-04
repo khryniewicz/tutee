@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Tutee"
-version = "0.1.0"
+version = "0.2.0"
 description = "PoC Student Copitol"
 authors = ["Kamil Hryniewicz <kamil@hryniew.cz>"]
 readme = "README.md"

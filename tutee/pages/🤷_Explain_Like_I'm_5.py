@@ -8,12 +8,6 @@ st.set_page_config(
     page_icon="👨‍✈️",
 )
 
-
-@st.cache(persist=True)
-def get_resources(topic):
-    return wikipedia.page(topic)
-
-
 with st.sidebar:
     st.title("Parameters")
     model = st.selectbox(
@@ -42,7 +36,7 @@ with st.sidebar:
 st.title(":shrug: Explain Like I'm 5")
 st.markdown("Proof of Concept for a copilot for students.")
 topic = st.text_input("Explain...", "natural language processing")
-page = get_resources(topic)
+page = wikipedia.page(topic)
 answer = summarize(page.summary, model, temperature, max_tokens)
 st.text_area(label="There you go", value=answer, height=250)
 

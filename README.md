@@ -1,1 +1,1 @@
-# Tutee
+# 🧑‍✈️ Tutee - PoC student copilot

@@ -1,8 +1,13 @@
 from os import getenv
+from re import sub
 import openai
 from streamlit import cache
 
 openai.api_key = getenv("OPENAI_API_KEY")
+
+
+def process_response(response):
+    return str.lstrip(sub("\n\n", "\n", response.choices[0].text))
 
 
 @cache(persist=True)
@@ -16,7 +21,7 @@ def essay_outline(topic: str) -> str:
         frequency_penalty=0.0,
         presence_penalty=0.0,
     )
-    return str.lstrip(response.choices[0].text)
+    return process_response(response)
 
 
 @cache(persist=True)
@@ -30,7 +35,7 @@ def study_notes(topic: str) -> str:
         frequency_penalty=0.0,
         presence_penalty=0.0,
     )
-    return str.lstrip(response.choices[0].text)
+    return process_response(response)
 
 
 @cache(persist=True)
@@ -44,4 +49,4 @@ def summarize(text, model, temperature, max_tokens) -> str:
         frequency_penalty=0.0,
         presence_penalty=0.0,
     )
-    return str.lstrip(response.choices[0].text)
+    return process_response(response)

@@ -32,11 +32,16 @@ with st.sidebar:
         help="The maximum number of tokens to generate in the completion.",
     )
 
+if "explain_topic" not in st.session_state:
+    st.session_state.explain_topic = "natural language processing"
 
 st.title(":shrug: Explain Like I'm 5")
 st.markdown("Proof of Concept for a copilot for students.")
-topic = st.text_input("Explain...", "natural language processing")
-page = wikipedia.page(topic)
+st.session_state.explain_topic = st.text_input(
+    label="Explain...",
+    value=st.session_state.explain_topic,
+)
+page = wikipedia.page(st.session_state.explain_topic)
 answer = summarize(page.summary, model, temperature, max_tokens)
 st.text_area(label="There you go", value=answer, height=250)
 

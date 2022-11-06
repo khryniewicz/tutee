@@ -7,14 +7,16 @@ st.set_page_config(
     page_icon="👨‍✈️",
 )
 
+if "essay_topic" not in st.session_state:
+    st.session_state.essay_topic = "tech entrepreneurs"
 
 st.title(":writing_hand: Essay outline")
 st.markdown("Generate an outline for a research topic.")
-topic = st.text_input(
+st.session_state.essay_topic = st.text_input(
     label="Create an outline for an essay about...",
-    value="Nikola Tesla and his contributions to technology",
+    value=st.session_state.essay_topic,
 )
-answer = essay_outline(topic)
+answer = essay_outline(st.session_state.essay_topic)
 st.text_area(label="There you go", value=answer, height=300)
 
 

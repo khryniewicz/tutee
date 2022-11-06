@@ -8,6 +8,11 @@ st.set_page_config(
     page_icon="👨‍✈️",
 )
 
+if "explain_topic" not in st.session_state:
+    st.session_state.explain_topic = "natural language processing"
+    st.session_state.temperature = 0.7
+    st.session_state.max_tokens = 100
+
 with st.sidebar:
     st.title("Parameters")
     model = st.selectbox(
@@ -15,25 +20,22 @@ with st.sidebar:
         options=["text-davinci-002"],
         help="The ID of the model to use for the OpenAI request.",
     )
-    temperature = st.slider(
+    st.session_state.temperature = st.slider(
         label="Temperature ",
         min_value=0.0,
         max_value=1.0,
-        value=0.7,
+        value=st.session_state.temperature,
         step=0.1,
         format="%g",
         help="Higher values means the model will take more risks.",
     )
-    max_tokens = st.number_input(
+    st.session_state.max_tokens = st.number_input(
         label="Max tokens",
         min_value=50,
         max_value=200,
-        value=100,
+        value=st.session_state.max_tokens,
         help="The maximum number of tokens to generate in the completion.",
     )
-
-if "explain_topic" not in st.session_state:
-    st.session_state.explain_topic = "natural language processing"
 
 st.title(":shrug: Explain Like I'm 5")
 st.markdown("Proof of Concept for a copilot for students.")
@@ -42,7 +44,12 @@ st.session_state.explain_topic = st.text_input(
     value=st.session_state.explain_topic,
 )
 page = wikipedia.page(st.session_state.explain_topic)
-answer = summarize(page.summary, model, temperature, max_tokens)
+answer = summarize(
+    text=page.summary,
+    model=model,
+    temperature=st.session_state.temperature,
+    max_tokens=st.session_state.max_tokens,
+)
 st.text_area(label="There you go", value=answer, height=250)
 
 
